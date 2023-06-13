@@ -1,1 +1,1 @@
-export const isTwoDimensionalArray = (arr) => arr.some((item) => Array.isArray(item))
+export const isTwoDimensionalArray = (arr) => Array.isArray(arr) && arr.every((item) => Array.isArray(item))
