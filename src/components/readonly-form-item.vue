@@ -36,9 +36,8 @@ const props = defineProps({
 })
 
 const otherSlots = computed(() => {
-  const _otherSlots = {}
-  Object.keys(slots).forEach((key) => key !== 'default' && (_otherSlots[key] = slots[key]))
-  return _otherSlots
+  const { default: _, ...rest } = slots
+  return rest
 })
 const isReadonly = computed(() => props.readonly || elForm.$attrs.readonly)
 const formItemProps = computed(() => ({ ...attrs, prop: isReadonly.value ? attrs.prop : '' }))
