@@ -1,9 +1,10 @@
 <template>
   <el-form-item v-bind="formItemProps">
-    <template v-for="(_, name) in $slots" #[name]>
-      <slot v-if="name === 'default' && !isReadonly" :name="name" />
-      <span v-else :key="name">{{ contentValue }}</span>
+    <template v-for="(_, name) in otherSlots" #[name]>
+      <slot :name="name" />
     </template>
+    <span v-if="isReadonly">{{ contentValue }}</span>
+    <slot v-else />
   </el-form-item>
 </template>
 
@@ -34,6 +35,11 @@ const props = defineProps({
   }
 })
 
+const otherSlots = computed(() => {
+  const _otherSlots = {}
+  Object.keys(slots).forEach((key) => key !== 'default' && (_otherSlots[key] = slots[key]))
+  return _otherSlots
+})
 const isReadonly = computed(() => props.readonly || elForm.$attrs.readonly)
 const formItemProps = computed(() => ({ ...attrs, prop: isReadonly.value ? attrs.prop : '' }))
 const componentVNode = computed(() => slots.default()?.[0])
