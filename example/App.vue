@@ -3,7 +3,7 @@
     <div style="text-align: right">
       <el-button @click="readonly = !readonly">{{ readonly ? '编辑' : '取消' }}</el-button>
     </div>
-    <el-form :model="model" :readonly="readonly" label-width="110px" label-suffix=":">
+    <el-form :model="model" :readonly="readonly" label-width="130px" label-suffix=":">
       <el-row>
         <el-col :span="8">
           <readonly-form-item label="输入框" prop="input">
@@ -59,7 +59,105 @@
             <el-cascader v-model="model.cascaderMultiple" :options="cascaderOptions" :props="{ multiple: true, emitPath: true, checkStrictly: true }" />
           </readonly-form-item>
         </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="时间选择器" prop="timePicker">
+            <el-time-select v-model="model.timePicker" placeholder="选择时间" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="时间选择器(范围)" prop="timePickerRange">
+            <el-time-picker v-model="model.timePickerRange" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围" />
+          </readonly-form-item>
+        </el-col>
       </el-row>
+
+      <el-table :data="model.tableData" border>
+        <el-table-column label="输入框">
+          <template slot-scope="scope">
+            <readonly-form-item :prop="`tableData.${scope.$index}.input`">
+              <el-input v-model.trim="scope.row.input" placeholder="请输入" />
+            </readonly-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="下拉框">
+          <template slot-scope="scope">
+            <readonly-form-item :prop="`tableData.${scope.$index}.select`">
+              <el-select v-model="scope.row.select" placeholder="请选择">
+                <el-option label="选项一" value="选项值一" />
+                <el-option label="选项二" value="选项值二" />
+              </el-select>
+            </readonly-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="下拉框(多选)">
+          <template slot-scope="scope">
+            <readonly-form-item :prop="`tableData.${scope.$index}.selectMultiple`">
+              <el-select v-model="scope.row.selectMultiple" multiple placeholder="请选择">
+                <el-option label="选项一" value="选项值一" />
+                <el-option label="选项二" value="选项值二" />
+                <el-option label="选项三" value="选项值三" />
+              </el-select>
+            </readonly-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="单选框">
+          <template slot-scope="scope">
+            <readonly-form-item :prop="`tableData.${scope.$index}.radio`">
+              <el-radio-group v-model="scope.row.radio">
+                <el-radio label="选项值一">单选一</el-radio>
+                <el-radio label="选项值二">单选二</el-radio>
+                <el-radio label="选项值三">单选三</el-radio>
+              </el-radio-group>
+            </readonly-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="多选框">
+          <template slot-scope="scope">
+            <readonly-form-item :prop="`tableData.${scope.$index}.checkbox`">
+              <el-checkbox-group v-model="scope.row.checkbox">
+                <el-checkbox label="多选框值 A">多选框 A</el-checkbox>
+                <el-checkbox label="多选框值 B">多选框 B</el-checkbox>
+                <el-checkbox label="多选框值 C">多选框 C</el-checkbox>
+              </el-checkbox-group>
+            </readonly-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="级联选择">
+          <template slot-scope="scope">
+            <readonly-form-item :prop="`tableData.${scope.$index}.cascader`">
+              <el-cascader v-model="scope.row.cascader" :options="cascaderOptions" />
+            </readonly-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="级联选择(多选)">
+          <template slot-scope="scope">
+            <readonly-form-item :prop="`tableData.${scope.$index}.cascaderMultiple`">
+              <el-cascader v-model="scope.row.cascaderMultiple" :options="cascaderOptions" :props="{ multiple: true, emitPath: true, checkStrictly: true }" />
+            </readonly-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="时间选择器">
+          <template slot-scope="scope">
+            <readonly-form-item :prop="`tableData.${scope.$index}.timePicker`">
+              <el-time-select v-model="scope.row.timePicker" placeholder="选择时间" />
+            </readonly-form-item>
+          </template>
+        </el-table-column>
+        <el-table-column label="时间选择器(范围)">
+          <template slot-scope="scope">
+            <readonly-form-item :prop="`tableData.${scope.$index}.timePickerRange`">
+              <el-time-picker
+                v-model="scope.row.timePickerRange"
+                is-range
+                range-separator="至"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                placeholder="选择时间范围"
+              />
+            </readonly-form-item>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-form>
   </div>
 </template>
@@ -80,7 +178,33 @@ const model = reactive({
   radio: '',
   checkbox: [],
   cascader: [],
-  cascaderMultiple: []
+  cascaderMultiple: [],
+  timePicker: '',
+  timePickerRange: null,
+  tableData: [
+    {
+      input: '',
+      select: '',
+      selectMultiple: [],
+      radio: '',
+      checkbox: [],
+      cascader: [],
+      cascaderMultiple: [],
+      timePicker: '',
+      timePickerRange: null
+    },
+    {
+      input: '',
+      select: '',
+      selectMultiple: [],
+      radio: '',
+      checkbox: [],
+      cascader: [],
+      cascaderMultiple: [],
+      timePicker: '',
+      timePickerRange: null
+    }
+  ]
 })
 
 const cascaderOptions = [

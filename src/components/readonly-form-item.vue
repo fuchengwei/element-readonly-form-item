@@ -10,6 +10,7 @@
 
 <script setup>
 import { inject, ref, computed, watch, getCurrentInstance, useSlots, useAttrs, onUpdated } from 'vue'
+import dayjs from 'dayjs'
 import { isTwoDimensionalArray } from '@/utils'
 
 defineOptions({
@@ -32,6 +33,12 @@ const props = defineProps({
   },
   separator: {
     type: String
+  },
+  dateSeparator: {
+    type: String
+  },
+  dateFormat: {
+    type: String
   }
 })
 
@@ -40,18 +47,19 @@ const otherSlots = computed(() => {
   return rest
 })
 const isReadonly = computed(() => props.readonly || elForm.$attrs.readonly)
-const formItemProps = computed(() => ({ ...attrs, prop: isReadonly.value ? attrs.prop : '' }))
+const formItemProps = computed(() => ({
+  ...attrs,
+  prop: isReadonly.value ? attrs.prop : '',
+  labelWidth: attrs.label ? attrs.labelWidth || elForm.$options.propsData.labelWidth : 'auto',
+  style: {
+    ...attrs.style,
+    marginBottom: instance.proxy.$parent.$vnode.tag.split('-').at(-1) === 'ElTableRow' && '0'
+  }
+}))
 const componentVNode = computed(() => slots.default()?.[0])
 const componentType = computed(() => componentVNode.value?.tag.split('-').at(-1))
-const keyPaths = computed(() => {
-  let { expression } = componentVNode.value?.data?.model
-  const index = expression?.lastIndexOf('.')
-
-  if (expression && index !== -1) {
-    expression = expression.substr(index + 1)
-  }
-  return (expression || attrs.prop)?.split('.')
-})
+const keyPaths = computed(() => attrs.prop?.split('.'))
+const getGlobalConfig = computed(() => instance.proxy.$ReadonlyFormItem || {})
 
 const elFormModel = ref(elForm.model)
 const contentValue = ref('')
@@ -62,9 +70,13 @@ const getOptions = () =>
     value: vNode.componentOptions?.propsData?.label
   }))
 
-const getEmptyText = () => props.emptyText || (instance.proxy.$ReadonlyFormItem || {}).emptyText || '-'
+const getEmptyText = () => props.emptyText || getGlobalConfig.value.emptyText || '-'
 
-const getSeparator = () => props.separator || (instance.proxy.$ReadonlyFormItem || {}).separator || ','
+const getSeparator = () => props.separator || getGlobalConfig.value.separator || ','
+
+const getDateSeparator = () => props.dateSeparator || getGlobalConfig.value.dateSeparator || '~'
+
+const getDateFormat = () => (props.dateFormat || getGlobalConfig.value.dateFormat || componentType.value === 'ElTimePicker' ? 'HH:mm:ss' : 'YYYY-MM-DD')
 
 const getValue = () => {
   const value = keyPaths.value?.reduce((pre, cur) => pre[cur], elFormModel.value)
@@ -121,6 +133,8 @@ const getContentValue = () => {
 
       return isTwoDimensionalArray(value) ? value.map((val) => val.map(findLabel)?.join(separator))?.join(getSeparator()) : value.map(findLabel).join(getSeparator())
     }
+    case 'ElTimePicker':
+      return Array.isArray(value) && value.length ? value.map((date) => dayjs(date).format(getDateFormat())).join(getDateSeparator()) : value
     default:
       return value
   }
