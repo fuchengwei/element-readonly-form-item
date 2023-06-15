@@ -10,8 +10,7 @@
 
 <script setup>
 import { inject, ref, computed, watch, getCurrentInstance, useSlots, useAttrs, onUpdated } from 'vue'
-import dayjs from 'dayjs'
-import { isTwoDimensionalArray } from '@/utils'
+import { isTwoDimensionalArray, formatAsFormatAndType, DEFAULT_FORMATS } from '@/utils'
 
 defineOptions({
   name: 'ReadonlyFormItem'
@@ -42,6 +41,10 @@ const props = defineProps({
   }
 })
 
+const componentVNode = () => slots.default()?.[0]
+const componentType = () => componentVNode()?.tag.split('-').at(-1)
+const dateComponentType = () => componentVNode()?.componentOptions?.propsData?.type ?? 'date'
+
 const otherSlots = computed(() => {
   const { default: _, ...rest } = slots
   return rest
@@ -56,16 +59,18 @@ const formItemProps = computed(() => ({
     marginBottom: instance.proxy.$parent.$vnode.tag.split('-').at(-1) === 'ElTableRow' && '0'
   }
 }))
-const componentVNode = computed(() => slots.default()?.[0])
-const componentType = computed(() => componentVNode.value?.tag.split('-').at(-1))
-const keyPaths = computed(() => attrs.prop?.split('.'))
 const getGlobalConfig = computed(() => instance.proxy.$ReadonlyFormItem || {})
 
 const elFormModel = ref(elForm.model)
 const contentValue = ref('')
 
+const FORMAT_MAP = {
+  ElTimePicker: 'HH:mm:ss',
+  ElDatePicker: DEFAULT_FORMATS[dateComponentType()]
+}
+
 const getOptions = () =>
-  componentVNode.value.componentOptions?.children?.map((vNode) => ({
+  componentVNode()?.componentOptions?.children?.map((vNode) => ({
     label: vNode.componentOptions?.children?.[0].text,
     value: vNode.componentOptions?.propsData?.label
   }))
@@ -76,10 +81,10 @@ const getSeparator = () => props.separator || getGlobalConfig.value.separator ||
 
 const getDateSeparator = () => props.dateSeparator || getGlobalConfig.value.dateSeparator || '~'
 
-const getDateFormat = () => (props.dateFormat || getGlobalConfig.value.dateFormat || componentType.value === 'ElTimePicker' ? 'HH:mm:ss' : 'YYYY-MM-DD')
+const getDateFormat = () => props.dateFormat || getGlobalConfig.value.dateFormat || componentVNode()?.componentOptions?.propsData?.format || FORMAT_MAP[componentType()]
 
 const getValue = () => {
-  const value = keyPaths.value?.reduce((pre, cur) => pre[cur], elFormModel.value)
+  const value = attrs.prop?.split('.')?.reduce((pre, cur) => pre[cur], elFormModel.value)
 
   if (typeof value === 'number') {
     return value
@@ -95,9 +100,9 @@ const getContentValue = () => {
 
   const value = getValue()
 
-  switch (componentType.value) {
+  switch (componentType()) {
     case 'ElSelect': {
-      const options = componentVNode.value.componentOptions.children?.map((vNode) => vNode.componentOptions.propsData)
+      const options = componentVNode()?.componentOptions.children?.map((vNode) => vNode.componentOptions.propsData)
 
       return Array.isArray(value)
         ? options
@@ -119,7 +124,7 @@ const getContentValue = () => {
         options,
         separator = '/',
         props: { label: labelKey = 'label', value: valueKey = 'value', children: childrenKey = 'children' } = {}
-      } = componentVNode.value.componentOptions?.propsData
+      } = componentVNode()?.componentOptions?.propsData
 
       const reduceCallback = (pre, cur) => {
         pre.push(cur)
@@ -134,7 +139,12 @@ const getContentValue = () => {
       return isTwoDimensionalArray(value) ? value.map((val) => val.map(findLabel)?.join(separator))?.join(getSeparator()) : value.map(findLabel).join(getSeparator())
     }
     case 'ElTimePicker':
-      return Array.isArray(value) && value.length ? value.map((date) => dayjs(date).format(getDateFormat())).join(getDateSeparator()) : value
+      return Array.isArray(value) && value.length ? value.map((date) => formatAsFormatAndType(date, getDateFormat(), 'time')).join(getDateSeparator()) : value
+    case 'ElDatePicker': {
+      const _value = formatAsFormatAndType(value, getDateFormat(), dateComponentType())
+      const _separator = ['monthrange', 'daterange', 'datetimerange'].includes(dateComponentType()) ? getDateSeparator() : getSeparator()
+      return Array.isArray(_value) ? _value.join(_separator) : _value
+    }
     default:
       return value
   }
@@ -142,7 +152,15 @@ const getContentValue = () => {
 
 const updateContentValue = () => (contentValue.value = getContentValue() || getEmptyText())
 
-onUpdated(() => updateContentValue())
+let oldComponentChildren = componentVNode().componentOptions.children
+
+onUpdated(() => {
+  const newComponentChildren = componentVNode().componentOptions.children
+  if (oldComponentChildren !== newComponentChildren) {
+    updateContentValue()
+    oldComponentChildren = newComponentChildren
+  }
+})
 
 watch(
   () => elForm.model,

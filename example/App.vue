@@ -3,7 +3,7 @@
     <div style="text-align: right">
       <el-button @click="readonly = !readonly">{{ readonly ? '编辑' : '取消' }}</el-button>
     </div>
-    <el-form :model="model" :readonly="readonly" label-width="130px" label-suffix=":">
+    <el-form :model="model" :readonly="readonly" label-width="190px" label-suffix=":">
       <el-row>
         <el-col :span="8">
           <readonly-form-item label="输入框" prop="input">
@@ -13,17 +13,14 @@
         <el-col :span="8">
           <readonly-form-item label="下拉框" prop="select">
             <el-select v-model="model.select" placeholder="请选择">
-              <el-option label="选项一" value="选项值一" />
-              <el-option label="选项二" value="选项值二" />
+              <el-option v-for="(option, index) of selectOptions" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="下拉框(多选)" prop="selectMultiple">
             <el-select v-model="model.selectMultiple" multiple placeholder="请选择">
-              <el-option label="选项一" value="选项值一" />
-              <el-option label="选项二" value="选项值二" />
-              <el-option label="选项三" value="选项值三" />
+              <el-option v-for="(option, index) of selectOptions" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </readonly-form-item>
         </el-col>
@@ -32,18 +29,14 @@
         <el-col :span="8">
           <readonly-form-item label="单选框" prop="radio">
             <el-radio-group v-model="model.radio">
-              <el-radio label="选项值一">单选一</el-radio>
-              <el-radio label="选项值二">单选二</el-radio>
-              <el-radio label="选项值三">单选三</el-radio>
+              <el-radio v-for="(option, index) of selectOptions" :key="index" :label="option.value">{{ option.label }}</el-radio>
             </el-radio-group>
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="多选框" prop="checkbox">
             <el-checkbox-group v-model="model.checkbox">
-              <el-checkbox label="多选框值 A">多选框 A</el-checkbox>
-              <el-checkbox label="多选框值 B">多选框 B</el-checkbox>
-              <el-checkbox label="多选框值 C">多选框 C</el-checkbox>
+              <el-checkbox v-for="(option, index) of selectOptions" :key="index" :label="option.value">{{ option.label }}</el-checkbox>
             </el-checkbox-group>
           </readonly-form-item>
         </el-col>
@@ -70,6 +63,69 @@
           </readonly-form-item>
         </el-col>
       </el-row>
+      <el-row>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(year)" prop="datePickerYear">
+            <el-date-picker v-model="model.datePickerYear" type="year" placeholder="选择年份" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(month)" prop="datePickerMonth">
+            <el-date-picker v-model="model.datePickerMonth" type="month" placeholder="选择月份" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(date)" prop="datePickerDate">
+            <el-date-picker v-model="model.datePickerDate" type="date" placeholder="选择日期" />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(week)" prop="datePickerWeek">
+            <el-date-picker v-model="model.datePickerWeek" type="week" placeholder="选择周" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(datetime)" prop="datePickerDatetime">
+            <el-date-picker v-model="model.datePickerDatetime" type="datetime" placeholder="选择日期时间" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(years)" prop="datePickerYears">
+            <el-date-picker v-model="model.datePickerYears" type="years" placeholder="选择多个年份" />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(months)" prop="datePickerMonths">
+            <el-date-picker v-model="model.datePickerMonths" type="months" placeholder="选择多个月份" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(dates)" prop="datePickerDates">
+            <el-date-picker v-model="model.datePickerDates" type="dates" placeholder="选择多个日期" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(monthrange)" prop="datePickerMonthrange">
+            <el-date-picker v-model="model.datePickerMonthrange" type="monthrange" />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(daterange)" prop="datePickerDaterange">
+            <el-date-picker v-model="model.datePickerDaterange" type="daterange" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期选择器(datetimerange)" prop="datePickerDatetimerange">
+            <el-date-picker v-model="model.datePickerDatetimerange" type="datetimerange" />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
 
       <el-table :data="model.tableData" border>
         <el-table-column label="输入框">
@@ -83,8 +139,7 @@
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.select`">
               <el-select v-model="scope.row.select" placeholder="请选择">
-                <el-option label="选项一" value="选项值一" />
-                <el-option label="选项二" value="选项值二" />
+                <el-option v-for="(option, index) of selectOptions" :key="index" :label="option.label" :value="option.value" />
               </el-select>
             </readonly-form-item>
           </template>
@@ -93,9 +148,7 @@
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.selectMultiple`">
               <el-select v-model="scope.row.selectMultiple" multiple placeholder="请选择">
-                <el-option label="选项一" value="选项值一" />
-                <el-option label="选项二" value="选项值二" />
-                <el-option label="选项三" value="选项值三" />
+                <el-option v-for="(option, index) of selectOptions" :key="index" :label="option.label" :value="option.value" />
               </el-select>
             </readonly-form-item>
           </template>
@@ -104,9 +157,7 @@
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.radio`">
               <el-radio-group v-model="scope.row.radio">
-                <el-radio label="选项值一">单选一</el-radio>
-                <el-radio label="选项值二">单选二</el-radio>
-                <el-radio label="选项值三">单选三</el-radio>
+                <el-radio v-for="(option, index) of selectOptions" :key="index" :label="option.value">{{ option.label }}</el-radio>
               </el-radio-group>
             </readonly-form-item>
           </template>
@@ -115,9 +166,7 @@
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.checkbox`">
               <el-checkbox-group v-model="scope.row.checkbox">
-                <el-checkbox label="多选框值 A">多选框 A</el-checkbox>
-                <el-checkbox label="多选框值 B">多选框 B</el-checkbox>
-                <el-checkbox label="多选框值 C">多选框 C</el-checkbox>
+                <el-checkbox v-for="(option, index) of selectOptions" :key="index" :label="option.value">{{ option.label }}</el-checkbox>
               </el-checkbox-group>
             </readonly-form-item>
           </template>
@@ -163,7 +212,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 
 defineOptions({
   name: 'App'
@@ -181,6 +230,17 @@ const model = reactive({
   cascaderMultiple: [],
   timePicker: '',
   timePickerRange: null,
+  datePickerDate: '',
+  datePickerYear: '',
+  datePickerMonth: '',
+  datePickerWeek: '',
+  datePickerDatetime: '',
+  datePickerYears: '',
+  datePickerMonths: '',
+  datePickerDates: '',
+  datePickerMonthrange: '',
+  datePickerDaterange: '',
+  datePickerDatetimerange: '',
   tableData: [
     {
       input: '',
@@ -191,7 +251,18 @@ const model = reactive({
       cascader: [],
       cascaderMultiple: [],
       timePicker: '',
-      timePickerRange: null
+      timePickerRange: null,
+      datePickerDate: '',
+      datePickerYear: '',
+      datePickerMonth: '',
+      datePickerWeek: '',
+      datePickerDatetime: '',
+      datePickerYears: '',
+      datePickerMonths: '',
+      datePickerDates: '',
+      datePickerMonthrange: '',
+      datePickerDaterange: '',
+      datePickerDatetimerange: ''
     },
     {
       input: '',
@@ -202,10 +273,23 @@ const model = reactive({
       cascader: [],
       cascaderMultiple: [],
       timePicker: '',
-      timePickerRange: null
+      timePickerRange: null,
+      datePickerDate: '',
+      datePickerYear: '',
+      datePickerMonth: '',
+      datePickerWeek: '',
+      datePickerDatetime: '',
+      datePickerYears: '',
+      datePickerMonths: '',
+      datePickerDates: '',
+      datePickerMonthrange: '',
+      datePickerDaterange: '',
+      datePickerDatetimerange: ''
     }
   ]
 })
+
+const selectOptions = ref([])
 
 const cascaderOptions = [
   {
@@ -475,4 +559,27 @@ const cascaderOptions = [
     ]
   }
 ]
+
+onMounted(() => {
+  setTimeout(() => {
+    selectOptions.value = [
+      {
+        label: '选项一',
+        value: '选项值一'
+      },
+      {
+        label: '选项二',
+        value: '选项值二'
+      },
+      {
+        label: '选项三',
+        value: '选项值三'
+      }
+    ]
+  }, 1000)
+
+  setTimeout(() => {
+    model.select = '选项值一'
+  }, 500)
+})
 </script>
