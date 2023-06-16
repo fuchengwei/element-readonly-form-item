@@ -105,7 +105,7 @@
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(dates)" prop="datePickerDates">
-            <el-date-picker v-model="model.datePickerDates" type="dates" placeholder="选择多个日期" />
+            <el-date-picker v-model="model.datePickerDates" format="yyyy/MM/DD" type="dates" placeholder="选择多个日期" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
@@ -123,6 +123,93 @@
         <el-col :span="8">
           <readonly-form-item label="日期选择器(datetimerange)" prop="datePickerDatetimerange">
             <el-date-picker v-model="model.datePickerDatetimerange" type="datetimerange" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期时间(year)" prop="dateTimePickerYear">
+            <el-date-picker v-model="model.dateTimePickerYear" type="year" placeholder="选择年份" />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <readonly-form-item label="日期时间(month)" prop="dateTimePickerMonth">
+            <el-date-picker v-model="model.dateTimePickerMonth" type="month" placeholder="选择月份" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期时间(date)" prop="dateTimePickerDate">
+            <el-date-picker v-model="model.dateTimePickerDate" type="date" placeholder="选择日期" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期时间(week)" prop="dateTimePickerWeek">
+            <el-date-picker v-model="model.dateTimePickerWeek" type="week" placeholder="选择周" />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <readonly-form-item label="日期时间(datetime)" prop="dateTimePickerDatetime">
+            <el-date-picker v-model="model.dateTimePickerDatetime" type="datetime" placeholder="选择日期时间" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期时间(daterange)" prop="dateTimePickerDateRange">
+            <el-date-picker v-model="model.dateTimePickerDateRange" type="daterange" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="日期时间(datetimerange)" prop="dateTimePickerDatetimeRange">
+            <el-date-picker v-model="model.dateTimePickerDatetimeRange" type="datetimerange" />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <readonly-form-item label="计数器" prop="inputNumber">
+            <el-input-number v-model="model.inputNumber" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="开关" prop="switch">
+            <el-switch v-model="model.switch" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="开关(自定义文字)" prop="switchCustom">
+            <el-switch v-model="model.switchCustom" active-text="激活" inactive-text="关闭" />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8">
+          <readonly-form-item label="评分" prop="rate">
+            <el-rate v-model="model.rate" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="8">
+          <readonly-form-item label="颜色选择器" prop="color">
+            <el-color-picker v-model="model.color" />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="12">
+          <readonly-form-item label="滑块" prop="slider">
+            <el-slider v-model="model.slider" />
+          </readonly-form-item>
+        </el-col>
+        <el-col :span="12">
+          <readonly-form-item label="滑块(范围)" prop="sliderRange">
+            <el-slider v-model="model.sliderRange" range />
+          </readonly-form-item>
+        </el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="24">
+          <readonly-form-item label="穿梭框" prop="transfer">
+            <el-transfer v-model="model.transfer" :data="transferOptions" />
           </readonly-form-item>
         </el-col>
       </el-row>
@@ -222,12 +309,20 @@ const readonly = ref(true)
 
 const model = reactive({
   input: '',
+  inputNumber: '',
+  switch: false,
+  switchCustom: false,
+  rate: 0,
+  color: '',
+  slider: 0,
+  sliderRange: [0, 0],
   select: '',
   selectMultiple: [],
   radio: '',
   checkbox: [],
   cascader: [],
   cascaderMultiple: [],
+  transfer: [],
   timePicker: '',
   timePickerRange: null,
   datePickerDate: '',
@@ -241,9 +336,23 @@ const model = reactive({
   datePickerMonthrange: '',
   datePickerDaterange: '',
   datePickerDatetimerange: '',
+  dateTimePickerYear: '',
+  dateTimePickerMonth: '',
+  dateTimePickerDate: '',
+  dateTimePickerWeek: '',
+  dateTimePickerDatetime: '',
+  dateTimePickerDateRange: '',
+  dateTimePickerDatetimeRange: '',
   tableData: [
     {
       input: '',
+      inputNumber: '',
+      switch: false,
+      switchCustom: false,
+      rate: 0,
+      color: '',
+      slider: 0,
+      sliderRange: [0, 0],
       select: '',
       selectMultiple: [],
       radio: '',
@@ -262,10 +371,24 @@ const model = reactive({
       datePickerDates: '',
       datePickerMonthrange: '',
       datePickerDaterange: '',
-      datePickerDatetimerange: ''
+      datePickerDatetimerange: '',
+      dateTimePickerYear: '',
+      dateTimePickerMonth: '',
+      dateTimePickerDate: '',
+      dateTimePickerWeek: '',
+      dateTimePickerDatetime: '',
+      dateTimePickerDateRange: '',
+      dateTimePickerDatetimeRange: ''
     },
     {
       input: '',
+      inputNumber: '',
+      switch: false,
+      switchCustom: false,
+      rate: 0,
+      color: '',
+      slider: 0,
+      sliderRange: [0, 0],
       select: '',
       selectMultiple: [],
       radio: '',
@@ -284,7 +407,14 @@ const model = reactive({
       datePickerDates: '',
       datePickerMonthrange: '',
       datePickerDaterange: '',
-      datePickerDatetimerange: ''
+      datePickerDatetimerange: '',
+      dateTimePickerYear: '',
+      dateTimePickerMonth: '',
+      dateTimePickerDate: '',
+      dateTimePickerWeek: '',
+      dateTimePickerDatetime: '',
+      dateTimePickerDateRange: '',
+      dateTimePickerDatetimeRange: ''
     }
   ]
 })
@@ -557,6 +687,21 @@ const cascaderOptions = [
         label: '组件交互文档'
       }
     ]
+  }
+]
+
+const transferOptions = [
+  {
+    key: 1,
+    label: '选项一'
+  },
+  {
+    key: 2,
+    label: '选项二'
+  },
+  {
+    key: 3,
+    label: '选项三'
   }
 ]
 

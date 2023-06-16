@@ -33,7 +33,7 @@ const props = defineProps({
   separator: {
     type: String
   },
-  dateSeparator: {
+  rangeSeparator: {
     type: String
   },
   dateFormat: {
@@ -79,19 +79,11 @@ const getEmptyText = () => props.emptyText || getGlobalConfig.value.emptyText ||
 
 const getSeparator = () => props.separator || getGlobalConfig.value.separator || ','
 
-const getDateSeparator = () => props.dateSeparator || getGlobalConfig.value.dateSeparator || '~'
+const getRangeSeparator = () => props.rangeSeparator || getGlobalConfig.value.rangeSeparator || '~'
 
 const getDateFormat = () => props.dateFormat || getGlobalConfig.value.dateFormat || componentVNode()?.componentOptions?.propsData?.format || FORMAT_MAP[componentType()]
 
-const getValue = () => {
-  const value = attrs.prop?.split('.')?.reduce((pre, cur) => pre[cur], elFormModel.value)
-
-  if (typeof value === 'number') {
-    return value
-  }
-
-  return value
-}
+const getValue = () => attrs.prop?.split('.')?.reduce((pre, cur) => pre[cur], elFormModel.value)
 
 const getContentValue = () => {
   if (props.value) {
@@ -138,19 +130,32 @@ const getContentValue = () => {
 
       return isTwoDimensionalArray(value) ? value.map((val) => val.map(findLabel)?.join(separator))?.join(getSeparator()) : value.map(findLabel).join(getSeparator())
     }
+    case 'ElTransfer': {
+      const { data, props: { key = 'key', label = 'label' } = {} } = componentVNode().componentOptions?.propsData
+      return value.map((val) => data.find((item) => item[key] === val)?.[label])?.join(getSeparator())
+    }
     case 'ElTimePicker':
-      return Array.isArray(value) && value.length ? value.map((date) => formatAsFormatAndType(date, getDateFormat(), 'time')).join(getDateSeparator()) : value
+      return Array.isArray(value) && value.length ? value.map((date) => formatAsFormatAndType(date, getDateFormat(), 'time')).join(getRangeSeparator()) : value
     case 'ElDatePicker': {
       const _value = formatAsFormatAndType(value, getDateFormat(), dateComponentType())
-      const _separator = ['monthrange', 'daterange', 'datetimerange'].includes(dateComponentType()) ? getDateSeparator() : getSeparator()
+      const _separator = ['monthrange', 'daterange', 'datetimerange'].includes(dateComponentType()) ? getRangeSeparator() : getSeparator()
       return Array.isArray(_value) ? _value.join(_separator) : _value
     }
+    case 'ElSwitch': {
+      const { activeText = '开', inactiveText = '关' } = componentVNode().componentOptions.propsData
+      return value ? activeText : inactiveText
+    }
+    case 'ElSlider':
+      return Array.isArray(value) ? value.join(getRangeSeparator()) : value
     default:
       return value
   }
 }
 
-const updateContentValue = () => (contentValue.value = getContentValue() || getEmptyText())
+const updateContentValue = () => {
+  const value = getContentValue()
+  contentValue.value = typeof value === 'number' ? value : value || getEmptyText()
+}
 
 let oldComponentChildren = componentVNode().componentOptions.children
 
