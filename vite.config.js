@@ -6,11 +6,6 @@ export default defineConfig({
   root: './develop/',
   base: './',
   plugins: [vue2()],
-  resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src')
-    }
-  },
   build: {
     outDir: resolve(__dirname, 'dist'),
     emptyOutDir: true,

@@ -1,4 +1,4 @@
-import ReadonlyFormItem from '@/components/readonly-form-item.vue'
+import ReadonlyFormItem from './components/readonly-form-item.vue'
 
 const install = (Vue, options = {}) => {
   Vue.prototype.$ReadonlyFormItem = options

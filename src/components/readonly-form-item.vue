@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import { isTwoDimensionalArray, getFormComponentVNode, formatAsFormatAndType, DEFAULT_FORMATS } from '@/utils'
+import { isTwoDimensionalArray, getFormComponentVNode, formatAsFormatAndType, DEFAULT_FORMATS } from '../utils'
 
 export default {
   name: 'ReadonlyFormItem',
