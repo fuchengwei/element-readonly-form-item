@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div style="text-align: right">
+    <div style="text-align: right; margin-bottom: 10px">
       <el-button @click="readonly = !readonly">{{ readonly ? '编辑' : '取消' }}</el-button>
     </div>
     <el-form :model="model" :readonly="readonly" label-width="190px" label-suffix=":">
@@ -12,14 +12,14 @@
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="下拉框" prop="select">
-            <el-select v-model="model.select" placeholder="请选择">
+            <el-select v-model="model.select" placeholder="请选择" style="width: 100%">
               <el-option v-for="(option, index) of selectOptions" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="下拉框(多选)" prop="selectMultiple">
-            <el-select v-model="model.selectMultiple" multiple placeholder="请选择">
+            <el-select v-model="model.selectMultiple" multiple placeholder="请选择" style="width: 100%">
               <el-option v-for="(option, index) of selectOptions" :key="index" :label="option.label" :value="option.value" />
             </el-select>
           </readonly-form-item>
@@ -42,135 +42,104 @@
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="级联选择" prop="cascader">
-            <el-cascader v-model="model.cascader" :options="cascaderOptions" />
+            <el-cascader v-model="model.cascader" :options="cascaderOptions" style="width: 100%" />
           </readonly-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <readonly-form-item label="级联选择(多选)" prop="cascaderMultiple">
-            <el-cascader v-model="model.cascaderMultiple" :options="cascaderOptions" :props="{ multiple: true, emitPath: true, checkStrictly: true }" />
+            <el-cascader v-model="model.cascaderMultiple" :options="cascaderOptions" :props="{ multiple: true, emitPath: true, checkStrictly: true }" style="width: 100%" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="时间选择器" prop="timePicker">
-            <el-time-select v-model="model.timePicker" placeholder="选择时间" />
+            <el-time-select v-model="model.timePicker" placeholder="选择时间" style="width: 100%" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="时间选择器(范围)" prop="timePickerRange">
-            <el-time-picker v-model="model.timePickerRange" is-range range-separator="至" start-placeholder="开始时间" end-placeholder="结束时间" placeholder="选择时间范围" />
+            <el-time-picker
+              v-model="model.timePickerRange"
+              is-range
+              range-separator="至"
+              start-placeholder="开始时间"
+              end-placeholder="结束时间"
+              placeholder="选择时间范围"
+              style="width: 100%"
+            />
           </readonly-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(year)" prop="datePickerYear">
-            <el-date-picker v-model="model.datePickerYear" type="year" placeholder="选择年份" />
+            <el-date-picker v-model="model.datePickerYear" type="year" placeholder="选择年份" style="width: 100%" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(month)" prop="datePickerMonth">
-            <el-date-picker v-model="model.datePickerMonth" type="month" placeholder="选择月份" />
+            <el-date-picker v-model="model.datePickerMonth" type="month" placeholder="选择月份" style="width: 100%" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(date)" prop="datePickerDate">
-            <el-date-picker v-model="model.datePickerDate" type="date" placeholder="选择日期" />
+            <el-date-picker v-model="model.datePickerDate" type="date" placeholder="选择日期" style="width: 100%" />
           </readonly-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(week)" prop="datePickerWeek">
-            <el-date-picker v-model="model.datePickerWeek" type="week" placeholder="选择周" />
+            <el-date-picker v-model="model.datePickerWeek" type="week" placeholder="选择周" style="width: 100%" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(datetime)" prop="datePickerDatetime">
-            <el-date-picker v-model="model.datePickerDatetime" type="datetime" placeholder="选择日期时间" />
+            <el-date-picker v-model="model.datePickerDatetime" type="datetime" placeholder="选择日期时间" style="width: 100%" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(years)" prop="datePickerYears">
-            <el-date-picker v-model="model.datePickerYears" type="years" placeholder="选择多个年份" />
+            <el-date-picker v-model="model.datePickerYears" type="years" placeholder="选择多个年份" style="width: 100%" />
           </readonly-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(months)" prop="datePickerMonths">
-            <el-date-picker v-model="model.datePickerMonths" type="months" placeholder="选择多个月份" />
+            <el-date-picker v-model="model.datePickerMonths" type="months" placeholder="选择多个月份" style="width: 100%" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(dates)" prop="datePickerDates">
-            <el-date-picker v-model="model.datePickerDates" format="yyyy/MM/DD" type="dates" placeholder="选择多个日期" />
+            <el-date-picker v-model="model.datePickerDates" format="yyyy/MM/DD" type="dates" placeholder="选择多个日期" style="width: 100%" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(monthrange)" prop="datePickerMonthrange">
-            <el-date-picker v-model="model.datePickerMonthrange" type="monthrange" />
+            <el-date-picker v-model="model.datePickerMonthrange" type="monthrange" style="width: 100%" />
           </readonly-form-item>
         </el-col>
       </el-row>
       <el-row>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(daterange)" prop="datePickerDaterange">
-            <el-date-picker v-model="model.datePickerDaterange" type="daterange" />
+            <el-date-picker v-model="model.datePickerDaterange" type="daterange" style="width: 100%" />
           </readonly-form-item>
         </el-col>
         <el-col :span="8">
           <readonly-form-item label="日期选择器(datetimerange)" prop="datePickerDatetimerange">
-            <el-date-picker v-model="model.datePickerDatetimerange" type="datetimerange" />
+            <el-date-picker v-model="model.datePickerDatetimerange" type="datetimerange" style="width: 100%" />
           </readonly-form-item>
         </el-col>
-        <el-col :span="8">
-          <readonly-form-item label="日期时间(year)" prop="dateTimePickerYear">
-            <el-date-picker v-model="model.dateTimePickerYear" type="year" placeholder="选择年份" />
-          </readonly-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <readonly-form-item label="日期时间(month)" prop="dateTimePickerMonth">
-            <el-date-picker v-model="model.dateTimePickerMonth" type="month" placeholder="选择月份" />
-          </readonly-form-item>
-        </el-col>
-        <el-col :span="8">
-          <readonly-form-item label="日期时间(date)" prop="dateTimePickerDate">
-            <el-date-picker v-model="model.dateTimePickerDate" type="date" placeholder="选择日期" />
-          </readonly-form-item>
-        </el-col>
-        <el-col :span="8">
-          <readonly-form-item label="日期时间(week)" prop="dateTimePickerWeek">
-            <el-date-picker v-model="model.dateTimePickerWeek" type="week" placeholder="选择周" />
-          </readonly-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <readonly-form-item label="日期时间(datetime)" prop="dateTimePickerDatetime">
-            <el-date-picker v-model="model.dateTimePickerDatetime" type="datetime" placeholder="选择日期时间" />
-          </readonly-form-item>
-        </el-col>
-        <el-col :span="8">
-          <readonly-form-item label="日期时间(daterange)" prop="dateTimePickerDateRange">
-            <el-date-picker v-model="model.dateTimePickerDateRange" type="daterange" />
-          </readonly-form-item>
-        </el-col>
-        <el-col :span="8">
-          <readonly-form-item label="日期时间(datetimerange)" prop="dateTimePickerDatetimeRange">
-            <el-date-picker v-model="model.dateTimePickerDatetimeRange" type="datetimerange" />
-          </readonly-form-item>
-        </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="8">
           <readonly-form-item label="计数器" prop="inputNumber">
-            <el-input-number v-model="model.inputNumber" />
+            <el-input-number v-model="model.inputNumber" style="width: 100%" />
           </readonly-form-item>
         </el-col>
+      </el-row>
+      <el-row>
         <el-col :span="8">
           <readonly-form-item label="开关" prop="switch">
             <el-switch v-model="model.switch" />
@@ -181,26 +150,24 @@
             <el-switch v-model="model.switchCustom" active-text="激活" inactive-text="关闭" />
           </readonly-form-item>
         </el-col>
-      </el-row>
-      <el-row>
         <el-col :span="8">
           <readonly-form-item label="评分" prop="rate">
             <el-rate v-model="model.rate" />
           </readonly-form-item>
         </el-col>
-        <el-col :span="8">
+      </el-row>
+      <el-row>
+        <el-col :span="4">
           <readonly-form-item label="颜色选择器" prop="color">
             <el-color-picker v-model="model.color" />
           </readonly-form-item>
         </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="12">
+        <el-col :span="10">
           <readonly-form-item label="滑块" prop="slider">
             <el-slider v-model="model.slider" />
           </readonly-form-item>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="10">
           <readonly-form-item label="滑块(范围)" prop="sliderRange">
             <el-slider v-model="model.sliderRange" range />
           </readonly-form-item>
@@ -215,14 +182,14 @@
       </el-row>
 
       <el-table :data="model.tableData" border>
-        <el-table-column label="输入框">
+        <el-table-column label="输入框" width="150">
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.input`">
               <el-input v-model.trim="scope.row.input" placeholder="请输入" />
             </readonly-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="下拉框">
+        <el-table-column label="下拉框" width="150">
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.select`">
               <el-select v-model="scope.row.select" placeholder="请选择">
@@ -231,7 +198,7 @@
             </readonly-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="下拉框(多选)">
+        <el-table-column label="下拉框(多选)" width="150">
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.selectMultiple`">
               <el-select v-model="scope.row.selectMultiple" multiple placeholder="请选择">
@@ -240,7 +207,7 @@
             </readonly-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="单选框">
+        <el-table-column label="单选框" width="300">
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.radio`">
               <el-radio-group v-model="scope.row.radio">
@@ -249,7 +216,7 @@
             </readonly-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="多选框">
+        <el-table-column label="多选框" width="300">
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.checkbox`">
               <el-checkbox-group v-model="scope.row.checkbox">
@@ -258,28 +225,28 @@
             </readonly-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="级联选择">
+        <el-table-column label="级联选择" width="150">
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.cascader`">
               <el-cascader v-model="scope.row.cascader" :options="cascaderOptions" />
             </readonly-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="级联选择(多选)">
+        <el-table-column label="级联选择(多选)" width="150">
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.cascaderMultiple`">
               <el-cascader v-model="scope.row.cascaderMultiple" :options="cascaderOptions" :props="{ multiple: true, emitPath: true, checkStrictly: true }" />
             </readonly-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="时间选择器">
+        <el-table-column label="时间选择器" width="240">
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.timePicker`">
               <el-time-select v-model="scope.row.timePicker" placeholder="选择时间" />
             </readonly-form-item>
           </template>
         </el-table-column>
-        <el-table-column label="时间选择器(范围)">
+        <el-table-column label="时间选择器(范围)" width="380">
           <template slot-scope="scope">
             <readonly-form-item :prop="`tableData.${scope.$index}.timePickerRange`">
               <el-time-picker
