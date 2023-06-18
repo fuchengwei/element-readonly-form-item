@@ -56,7 +56,7 @@ export default {
         labelWidth: this.$attrs.label ? this.$attrs.labelWidth || this.elForm.$options.propsData.labelWidth : 'auto',
         style: {
           ...this.$attrs.style,
-          marginBottom: this.$parent.$vnode.tag.split('-').at(-1) === 'ElTableRow' && '0'
+          marginBottom: ['ElTableRow', 'ElTableBody'].includes(this.$parent.$vnode.tag.split('-').at(-1)) && '0'
         }
       }
     },
