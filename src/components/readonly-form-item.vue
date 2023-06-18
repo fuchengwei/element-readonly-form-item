@@ -10,7 +10,7 @@
 
 <script setup>
 import { inject, ref, computed, watch, getCurrentInstance, useSlots, useAttrs, onUpdated } from 'vue'
-import { isTwoDimensionalArray, formatAsFormatAndType, DEFAULT_FORMATS } from '@/utils'
+import { isTwoDimensionalArray, getFormComponentVNode, formatAsFormatAndType, DEFAULT_FORMATS } from '@/utils'
 
 defineOptions({
   name: 'ReadonlyFormItem'
@@ -41,7 +41,7 @@ const props = defineProps({
   }
 })
 
-const componentVNode = () => slots.default()?.[0]
+const componentVNode = () => getFormComponentVNode(slots.default())
 const componentType = () => componentVNode()?.tag.split('-').at(-1)
 const dateComponentType = () => componentVNode()?.componentOptions?.propsData?.type ?? 'date'
 
@@ -100,7 +100,7 @@ const getContentValue = () => {
         ? options
             ?.filter((item) => value.includes(item.value))
             ?.map((item) => item.label)
-            ?.join(',')
+            ?.join(getSeparator())
         : options?.find((item) => item.value === value)?.label
     }
     case 'ElRadioGroup':
@@ -109,7 +109,7 @@ const getContentValue = () => {
       return getOptions()
         ?.filter((item) => value.includes(item.value))
         ?.map((item) => item.label)
-        ?.join(',')
+        ?.join(getSeparator())
     }
     case 'ElCascader': {
       const {
