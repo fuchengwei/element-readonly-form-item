@@ -12,6 +12,10 @@ https://github.com/fuchengwei/element-readonly-form-item
 
 https://www.npmjs.com/package/element-readonly-form-item
 
+### 演示地址（github）
+
+[https://fuchengwei.github.io/element-readonly-form-item/example/index.html](https://fuchengwei.github.io/element-readonly-form-item/example/index.html)
+
 ## 安装
 
 ### 使用 npm 或 pnpm 安装
