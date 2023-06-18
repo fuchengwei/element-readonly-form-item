@@ -266,7 +266,7 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive } from 'vue'
 
 defineOptions({
   name: 'App'
@@ -386,7 +386,20 @@ const model = reactive({
   ]
 })
 
-const selectOptions = ref([])
+const selectOptions = ref([
+  {
+    label: '选项一',
+    value: '选项值一'
+  },
+  {
+    label: '选项二',
+    value: '选项值二'
+  },
+  {
+    label: '选项三',
+    value: '选项值三'
+  }
+])
 
 const cascaderOptions = [
   {
@@ -671,27 +684,4 @@ const transferOptions = [
     label: '选项三'
   }
 ]
-
-onMounted(() => {
-  setTimeout(() => {
-    selectOptions.value = [
-      {
-        label: '选项一',
-        value: '选项值一'
-      },
-      {
-        label: '选项二',
-        value: '选项值二'
-      },
-      {
-        label: '选项三',
-        value: '选项值三'
-      }
-    ]
-  }, 1000)
-
-  setTimeout(() => {
-    model.select = '选项值一'
-  }, 500)
-})
 </script>

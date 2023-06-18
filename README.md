@@ -2,6 +2,8 @@
 
 基于 ElementUI 的表单只读态控件，完美适配所有表单组件。主要用于新建页与详情页动态切换。支持 npm 与 cdn 方式的引入。
 
+![](https://pic.imgdb.cn/item/648f01281ddac507ccef7d60.gif)
+
 ## GitHub
 
 https://github.com/fuchengwei/element-readonly-form-item
@@ -38,7 +40,7 @@ $ pnpm add element-readonly-form-item --save
 
 1. 无论 npm 或者 cdn 引入都需要自行引入 [ElementUI](https://element.eleme.cn/)。
 2. 为 el-form 组件扩展了 readonly 属性，可同时控制 el-form 组件内所有表单的 readonly 属性。
-3. el-form-item 与 element-readonly-form-item 可同时使用，并不会互相影响。element-readonly-form-item 只是对 el-form-item 进一步抽屉与封装，支持所有 el-form-item 的属性与插槽配置。
+3. el-form-item 与 readonly-form-item 可同时使用，并不会互相影响。readonly-form-item 只是对 el-form-item 进一步抽屉与封装，支持所有 el-form-item 的属性与插槽配置。
 
 ### 示例
 
@@ -47,13 +49,13 @@ $ pnpm add element-readonly-form-item --save
 ```javascript
 import Vue from 'vue'
 import ElementUI from 'element-ui'
-import ElementReadonlyFormItem from 'element-readonly-form-item'
+import ReadonlyFormItem from 'element-readonly-form-item'
 import App from './App.vue'
 
 import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(ElementUI)
-Vue.use(ElementReadonlyFormItem, { emptyText: '-' })
+Vue.use(ReadonlyFormItem, { emptyText: '-' })
 
 new Vue(App).$mount('#app')
 ```
@@ -101,6 +103,6 @@ const model = reactive({
 
 ```javascript
 import Vue from 'vue'
-import ElementReadonlyFormItem from 'element-form-item'
-Vue.use(ElementReadonlyFormItem, { emptyText: '-', separator: ',' })
+import ReadonlyFormItem from 'element-readonly-form-item'
+Vue.use(ReadonlyFormItem, { emptyText: '-', separator: ',' })
 ```

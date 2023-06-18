@@ -1,8 +1,33 @@
 {
   "name": "element-readonly-form-item",
-  "private": true,
-  "version": "0.0.0",
+  "description": "基于 ElementUI 的表单只读态控件，完美适配所有表单组件。主要用于新建页与详情页动态切换。支持 npm 与 cdn 方式的引入。",
+  "version": "1.0.0",
   "type": "module",
+  "main": "dist/element-readonly-form-item.umd.js",
+  "module": "dist/element-readonly-form-item.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/element-readonly-form-item.es.js",
+      "require": "./dist/element-readonly-form-item.umd.js"
+    }
+  },
+  "author": {
+    "name": "fuchengwei"
+  },
+  "keywords": [
+    "ElementUI",
+    "Readonly",
+    "Vue",
+    "Form"
+  ],
+  "homepage": "https://github.com/fuchengwei/element-readonly-form-item",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fuchengwei/element-readonly-form-item"
+  },
+  "files": [
+    "dist/*"
+  ],
   "scripts": {
     "dev": "vite",
     "build": "vite build",
