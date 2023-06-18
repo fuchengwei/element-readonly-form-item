@@ -57,6 +57,9 @@
     "vite": "^4.3.9",
     "vue": "^2.7.14"
   },
+  "peerDependencies": {
+    "element-ui": "^2.15.13"
+  },
   "lint-staged": {
     "*.{vue,js,ts}": "eslint --fix"
   },
