@@ -11,14 +11,14 @@ export default defineConfig({
       '@': resolve(__dirname, 'src')
     }
   },
-  // build: {
-  //   outDir: resolve(__dirname, 'dist'),
-  //   emptyOutDir: true,
-  //   lib: {
-  //     entry: resolve(__dirname, 'src/index.js'),
-  //     formats: ['es', 'umd'],
-  //     name: 'ReadonlyFormItem',
-  //     fileName: (format) => `readonly-form-item.${format}.js`
-  //   }
-  // }
+  build: {
+    outDir: resolve(__dirname, 'dist'),
+    emptyOutDir: true,
+    lib: {
+      entry: resolve(__dirname, 'src/index.js'),
+      formats: ['es', 'umd'],
+      name: 'ReadonlyFormItem',
+      fileName: (format) => `readonly-form-item.${format}.js`
+    }
+  }
 })
