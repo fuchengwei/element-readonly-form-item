@@ -28,12 +28,12 @@ $ pnpm add element-readonly-form-item --save
 
 ### 浏览器引入
 
-在浏览器中使用 `script` 标签直接引入文件，并使用全局变量 `ElementReadonlyFormItem`。
+在浏览器中使用 `script` 标签直接引入文件，并使用全局变量 `ReadonlyFormItem`。
 
-我们在 npm 发布包内的 `element-readonly-form-item/dist`提供了 `element-readonly-form-item.es.js` `element-readonly-form-item.umd.js`。你也可以通过 [![jsdelivr](https://data.jsdelivr.com/v1/package/npm/element-readonly-form-item/badge)](https://www.jsdelivr.com/package/npm/element-readonly-form-item) 或 [UNPKG](https://unpkg.com/element-readonly-form-item/dist/) 进行下载。
+我们在 npm 发布包内的 `element-readonly-form-item/dist`提供了 `readonly-form-item.es.js` `readonly-form-item.umd.js`。你也可以通过 [![jsdelivr](https://data.jsdelivr.com/v1/package/npm/element-readonly-form-item/badge)](https://www.jsdelivr.com/package/npm/element-readonly-form-item) 或 [UNPKG](https://unpkg.com/element-readonly-form-item/dist/) 进行下载。
 
 ```javascript
-<script src="https://unpkg.com/element-readonly-form-item/dist/element-readonly-form-item.umd.js"></script>
+<script src="https://unpkg.com/element-readonly-form-item/dist/readonly-form-item.umd.js"></script>
 ```
 
 ### 注意
@@ -106,3 +106,5 @@ import Vue from 'vue'
 import ReadonlyFormItem from 'element-readonly-form-item'
 Vue.use(ReadonlyFormItem, { emptyText: '-', separator: ',' })
 ```
+
+最后如果大家觉得还不错挺好用的话，麻烦给个 Star 😜😜😜。

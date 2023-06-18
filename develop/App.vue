@@ -268,10 +268,6 @@
 <script setup>
 import { ref, reactive } from 'vue'
 
-defineOptions({
-  name: 'App'
-})
-
 const readonly = ref(true)
 
 const model = reactive({
