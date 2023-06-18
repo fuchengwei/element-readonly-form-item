@@ -4,6 +4,7 @@ import { resolve } from 'path'
 
 export default defineConfig({
   root: './develop/',
+  base: '/example',
   plugins: [vue2()],
   resolve: {
     alias: {
