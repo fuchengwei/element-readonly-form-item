@@ -40,7 +40,8 @@ $ pnpm add element-readonly-form-item --save
 
 1. 无论 npm 或者 cdn 引入都需要自行引入 [ElementUI](https://element.eleme.cn/)。
 2. 为 el-form 组件扩展了 readonly 属性，可同时控制 el-form 组件内所有表单的 readonly 属性。
-3. el-form-item 与 readonly-form-item 可同时使用，并不会互相影响。readonly-form-item 只是对 el-form-item 进一步抽屉与封装，支持所有 el-form-item 的属性与插槽配置。
+3. el-form-item 与 readonly-form-item 可同时使用，并不会互相影响。readonly-form-item 只是对 el-form-item 进一步抽屉与封装，支持所有 el-form-item 的属性与插槽配置，其中 prop 属性是必填的。
+4. dateFormat 属性格式化字符串完全按照 element日期组件格式化标准来写。默认会读取绑定字段上的 format 属性。
 
 ### 示例
 
@@ -104,6 +105,7 @@ const model = reactive({
 ```javascript
 import Vue from 'vue'
 import ReadonlyFormItem from 'element-readonly-form-item'
+
 Vue.use(ReadonlyFormItem, { emptyText: '-', separator: ',' })
 ```
 
