@@ -67,7 +67,7 @@ new Vue(App).$mount('#app')
 
 ## 快速上手
 
-组件覆写了 el-form-item 对于 el-form-item 原有的属性、插槽都是支持的。使用时注意
+组件覆写了 el-form-item 对于 el-form-item 原有的属性、插槽都是支持的。
 
 ### 示例
 
