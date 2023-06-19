@@ -47,12 +47,12 @@ export default {
       return rest
     },
     isReadonly() {
-      return this.readonly || this.elForm.$attrs.readonly
+      return 'readonly' in this.$options.propsData ? this.readonly : this.elForm.$attrs.readonly
     },
     formItemProps() {
       return {
         ...this.$attrs,
-        prop: this.isReadonly ? this.$attrs.prop : '',
+        prop: this.isReadonly ? '' : this.$attrs.prop,
         labelWidth: this.$attrs.label ? this.$attrs.labelWidth || this.elForm.$options.propsData.labelWidth : 'auto',
         style: {
           ...this.$attrs.style,
