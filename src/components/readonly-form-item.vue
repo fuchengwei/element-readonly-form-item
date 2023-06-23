@@ -3,7 +3,7 @@
     <template v-for="(_, name) in otherSlots" #[name]>
       <slot :name="name" />
     </template>
-    <span v-if="isReadonly">{{ contentValue }}</span>
+    <span v-if="isReadonly" style="word-break: break-all">{{ contentValue }}</span>
     <slot v-else />
   </el-form-item>
 </template>
@@ -68,16 +68,16 @@ export default {
     componentVNode() {
       return getFormComponentVNode(this.$slots.default)
     },
-    componentType() {
-      return this.componentVNode()?.tag.split('-').at(-1)
+    componentType(vNode) {
+      return vNode?.tag.split('-').at(-1)
     },
-    dateComponentType() {
-      return this.componentVNode()?.componentOptions?.propsData?.type ?? 'date'
+    dateComponentType(vNode) {
+      return vNode?.componentOptions?.propsData?.type ?? 'date'
     },
-    getOptions() {
-      return this.componentVNode()?.componentOptions?.children?.map((vNode) => ({
-        label: vNode.componentOptions?.children?.[0].text,
-        value: vNode.componentOptions?.propsData?.label
+    getOptions(vNode) {
+      return vNode?.componentOptions?.children?.map((_vNode) => ({
+        label: _vNode.componentOptions?.children?.[0].text,
+        value: _vNode.componentOptions?.propsData?.label
       }))
     },
     getEmptyText() {
@@ -90,12 +90,14 @@ export default {
       return this.rangeSeparator || this.getGlobalConfig.rangeSeparator || '~'
     },
     getDateFormat() {
+      const vNode = this.componentVNode()
+
       const FORMAT_MAP = {
         ElTimePicker: 'HH:mm:ss',
-        ElDatePicker: DEFAULT_FORMATS[this.dateComponentType()]
+        ElDatePicker: DEFAULT_FORMATS[this.dateComponentType(vNode)]
       }
 
-      return this.dateFormat || this.getGlobalConfig.dateFormat || this.componentVNode()?.componentOptions?.propsData?.format || FORMAT_MAP[this.componentType()]
+      return this.dateFormat || this.getGlobalConfig.dateFormat || vNode?.componentOptions?.propsData?.format || FORMAT_MAP[this.componentType(vNode)]
     },
     getValue() {
       return this.$attrs.prop?.split('.')?.reduce((pre, cur) => pre[cur], this.elFormModel)
@@ -107,9 +109,11 @@ export default {
 
       const value = this.getValue()
 
-      switch (this.componentType()) {
+      const vNode = this.componentVNode()
+
+      switch (this.componentType(vNode)) {
         case 'ElSelect': {
-          const options = this.componentVNode()?.componentOptions.children?.map((vNode) => vNode.componentOptions.propsData)
+          const options = vNode?.componentOptions.children?.map((_vNode) => _vNode.componentOptions.propsData)
 
           return Array.isArray(value)
             ? options
@@ -119,9 +123,9 @@ export default {
             : options?.find((item) => item.value === value)?.label
         }
         case 'ElRadioGroup':
-          return this.getOptions()?.find((item) => item.value === value)?.label
+          return this.getOptions(vNode)?.find((item) => item.value === value)?.label
         case 'ElCheckboxGroup': {
-          return this.getOptions()
+          return this.getOptions(vNode)
             ?.filter((item) => value.includes(item.value))
             ?.map((item) => item.label)
             ?.join(this.getSeparator())
@@ -131,7 +135,7 @@ export default {
             options,
             separator = '/',
             props: { label: labelKey = 'label', value: valueKey = 'value', children: childrenKey = 'children' } = {}
-          } = this.componentVNode()?.componentOptions?.propsData
+          } = vNode?.componentOptions?.propsData
 
           const reduceCallback = (pre, cur) => {
             pre.push(cur)
@@ -143,21 +147,22 @@ export default {
 
           const findLabel = (val) => options?.reduce(reduceCallback, []).find((option) => option[valueKey] === val)?.[labelKey]
 
-          return isTwoDimensionalArray(value) ? value.map((val) => val.map(findLabel)?.join(separator))?.join(this.getSeparator()) : value.map(findLabel).join(this.getSeparator())
+          return isTwoDimensionalArray(value) ? value.map((val) => val.map(findLabel)?.join(separator))?.join(this.getSeparator()) : value.map(findLabel).join(separator)
         }
         case 'ElTransfer': {
-          const { data, props: { key = 'key', label = 'label' } = {} } = this.componentVNode().componentOptions?.propsData
+          const { data, props: { key = 'key', label = 'label' } = {} } = vNode.componentOptions?.propsData
           return value.map((val) => data.find((item) => item[key] === val)?.[label])?.join(this.getSeparator())
         }
         case 'ElTimePicker':
           return Array.isArray(value) && value.length ? value.map((date) => formatAsFormatAndType(date, this.getDateFormat(), 'time')).join(this.getRangeSeparator()) : value
         case 'ElDatePicker': {
-          const _value = formatAsFormatAndType(value, this.getDateFormat(), this.dateComponentType())
-          const _separator = ['monthrange', 'daterange', 'datetimerange'].includes(this.dateComponentType()) ? this.getRangeSeparator() : this.getSeparator()
+          const dateComponentType = this.dateComponentType(vNode)
+          const _value = formatAsFormatAndType(value, this.getDateFormat(), dateComponentType)
+          const _separator = ['monthrange', 'daterange', 'datetimerange'].includes(dateComponentType) ? this.getRangeSeparator() : this.getSeparator()
           return Array.isArray(_value) ? _value.join(_separator) : _value
         }
         case 'ElSwitch': {
-          const { activeText = '开', inactiveText = '关' } = this.componentVNode().componentOptions.propsData
+          const { activeText = '开', inactiveText = '关' } = vNode.componentOptions.propsData
           return value ? activeText : inactiveText
         }
         case 'ElSlider':

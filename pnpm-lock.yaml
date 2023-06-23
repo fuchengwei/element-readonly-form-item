@@ -24,8 +24,8 @@ devDependencies:
     specifier: ^7.0.0
     version: 7.0.0
   element-ui:
-    specifier: ^2.15.13
-    version: 2.15.13(vue@2.7.14)
+    specifier: ^2.9.0
+    version: 2.9.0(vue@2.7.14)
   eslint:
     specifier: ^8.42.0
     version: 8.42.0
@@ -1276,8 +1276,8 @@ packages:
     resolution: {integrity: sha512-SoRmbGStwNYHgKfjOrX2L0mUvp9bUVv0uPppZSOMAntEbcFtoC3MKF5b3T6HQPXKIV+QGY3xPO3JK5it5lVkuw==}
     dev: true
 
-  /element-ui@2.15.13(vue@2.7.14):
-    resolution: {integrity: sha512-LJoatEYX6WV74FqXBss8Xfho9fh9rjDSzrDrTyREdGb1h1R3uRvmLh5jqp2JU137aj4/BgqA3K06RQpQBX33Bg==}
+  /element-ui@2.9.0(vue@2.7.14):
+    resolution: {integrity: sha512-1i50qB9ygrokuuMFsmWaX8DsRNIxdziK2IBhcWgOy+gO1mPmhZpp48hurvh1GOcInlE2KUidMKuxVMRgwW7URg==}
     peerDependencies:
       vue: ^2.5.17
     dependencies:
@@ -1569,7 +1569,7 @@ packages:
       natural-compare: 1.4.0
       nth-check: 2.1.1
       postcss-selector-parser: 6.0.13
-      semver: 7.5.2
+      semver: 7.5.3
       vue-eslint-parser: 9.3.1(eslint@8.42.0)
       xml-name-validator: 4.0.0
     transitivePeerDependencies:
@@ -2730,7 +2730,7 @@ packages:
     dependencies:
       hosted-git-info: 4.1.0
       is-core-module: 2.12.1
-      semver: 7.5.2
+      semver: 7.5.3
       validate-npm-package-license: 3.0.4
     dev: true
 
@@ -3222,8 +3222,8 @@ packages:
       lru-cache: 6.0.0
     dev: true
 
-  /semver@7.5.2:
-    resolution: {integrity: sha512-SoftuTROv/cRjCze/scjGyiDtcUyxw1rgYQSZY7XTmtR5hX+dm76iDbTH8TkLPHCQmlbQVSSbNZCPM2hb0knnQ==}
+  /semver@7.5.3:
+    resolution: {integrity: sha512-QBlUtyVk/5EeHbi7X0fw6liDZc7BBmEaSYn01fMU1OUYbf6GPsbTtd8WmnqbI20SeycoHSeiybkE/q1Q+qlThQ==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:
@@ -3697,7 +3697,7 @@ packages:
       espree: 9.5.2
       esquery: 1.5.0
       lodash: 4.17.21
-      semver: 7.5.2
+      semver: 7.5.3
     transitivePeerDependencies:
       - supports-color
     dev: true
