@@ -52,7 +52,6 @@ export default {
     formItemProps() {
       return {
         ...this.$attrs,
-        prop: this.isReadonly ? '' : this.$attrs.prop,
         labelWidth: this.$attrs.label ? this.$attrs.labelWidth || this.elForm.$options.propsData.labelWidth : 'auto',
         style: {
           ...this.$attrs.style,
@@ -183,6 +182,15 @@ export default {
         this.updateContentValue()
       },
       deep: true,
+      immediate: true
+    },
+    isReadonly: {
+      handler(val) {
+        this.$nextTick(() => {
+          const elFormItemInstance = this.$refs.elFormItemRef
+          elFormItemInstance.dispatch('ElForm', val ? 'el.form.removeField' : 'el.form.addField', [elFormItemInstance])
+        })
+      },
       immediate: true
     }
   },
