@@ -1,7 +1,7 @@
 {
   "name": "element-readonly-form-item",
   "description": "基于 ElementUI 的表单只读态控件，完美适配所有表单组件。主要用于新建页与详情页动态切换。支持 npm 与 cdn 方式的引入。",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "type": "module",
   "main": "dist/readonly-form-item.umd.js",
   "module": "dist/readonly-form-item.es.js",

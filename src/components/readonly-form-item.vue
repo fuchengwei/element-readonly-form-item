@@ -3,7 +3,7 @@
     <template v-for="(_, name) in otherSlots" #[name]>
       <slot :name="name" />
     </template>
-    <span v-if="isReadonly" style="word-break: break-all">{{ contentValue }}</span>
+    <span v-if="isReadonly" :style="contentStyle">{{ contentValue }}</span>
     <slot v-else />
   </el-form-item>
 </template>
@@ -49,18 +49,34 @@ export default {
     isReadonly() {
       return 'readonly' in this.$options.propsData ? this.readonly : this.elForm.$attrs.readonly
     },
+    isTable() {
+      return ['ElTableRow', 'ElTableBody'].includes(this.$parent.$vnode.tag.split('-').at(-1))
+    },
     formItemProps() {
       return {
         ...this.$attrs,
         labelWidth: this.$attrs.label ? this.$attrs.labelWidth || this.elForm.$options.propsData.labelWidth : 'auto',
         style: {
           ...this.$attrs.style,
-          marginBottom: ['ElTableRow', 'ElTableBody'].includes(this.$parent.$vnode.tag.split('-').at(-1)) && '0'
+          marginBottom: this.isTable && '0'
         }
       }
     },
     getGlobalConfig() {
       return this.$ReadonlyFormItem || {}
+    },
+    contentStyle() {
+      return this.isTable
+        ? {
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            display: 'inline-block',
+            width: '100%'
+          }
+        : {
+            wordBreak: 'break-all'
+          }
     }
   },
   methods: {
