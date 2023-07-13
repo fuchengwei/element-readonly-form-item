@@ -3,7 +3,7 @@
     <template v-for="(_, name) in otherSlots" #[name]>
       <slot :name="name" />
     </template>
-    <span v-if="isReadonly" :style="contentStyle">{{ contentValue }}</span>
+    <span v-if="isReadonly">{{ contentValue }}</span>
     <slot v-else />
   </el-form-item>
 </template>
@@ -72,7 +72,8 @@ export default {
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             display: 'inline-block',
-            width: '100%'
+            width: '100%',
+            verticalAlign: 'bottom'
           }
         : {
             wordBreak: 'break-all'
