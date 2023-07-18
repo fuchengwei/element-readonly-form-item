@@ -201,6 +201,12 @@ export default {
       deep: true,
       immediate: true
     },
+    $attrs: {
+      handler() {
+        this.updateContentValue()
+      },
+      deep: true
+    },
     isReadonly: {
       handler(val) {
         this.$nextTick(() => {
