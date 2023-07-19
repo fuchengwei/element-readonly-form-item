@@ -190,6 +190,12 @@ export default {
     updateContentValue() {
       const value = this.getContentValue()
       this.contentValue = typeof value === 'number' ? value : value || this.getEmptyText()
+    },
+    dispatch(bool) {
+      this.$nextTick(() => {
+        const elFormItemInstance = this.$refs.elFormItemRef
+        elFormItemInstance.dispatch('ElForm', bool ? 'el.form.removeField' : 'el.form.addField', [elFormItemInstance])
+      })
     }
   },
   watch: {
@@ -207,15 +213,12 @@ export default {
       },
       deep: true
     },
-    isReadonly: {
-      handler(val) {
-        this.$nextTick(() => {
-          const elFormItemInstance = this.$refs.elFormItemRef
-          elFormItemInstance.dispatch('ElForm', val ? 'el.form.removeField' : 'el.form.addField', [elFormItemInstance])
-        })
-      },
-      immediate: true
+    isReadonly(val) {
+      this.dispatch(val)
     }
+  },
+  mounted() {
+    this.isReadonly && this.dispatch(true)
   },
   updated() {
     const newComponentChildren = this.componentVNode().componentOptions.children
