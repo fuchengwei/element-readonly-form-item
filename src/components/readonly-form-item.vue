@@ -1,5 +1,5 @@
 <template>
-  <el-form-item v-bind="formItemProps">
+  <el-form-item ref="elFormItemRef" v-bind="formItemProps">
     <template v-for="(_, name) in otherSlots" #[name]>
       <slot :name="name" />
     </template>
@@ -226,6 +226,9 @@ export default {
       this.updateContentValue()
       this.oldComponentChildren = newComponentChildren
     }
+  },
+  beforeDestroy() {
+    this.isReadonly && delete this.$refs.elFormItemRef._props.prop
   }
 }
 </script>
