@@ -1,6 +1,6 @@
 <template>
   <el-form-item ref="elFormItemRef" v-bind="formItemProps">
-    <template v-for="(_, name) in otherSlots" #[name]>
+    <template v-for="(_, name) in otherSlots()" #[name]>
       <slot :name="name" />
     </template>
     <span v-if="isReadonly" :style="contentStyle">{{ contentValue }}</span>
