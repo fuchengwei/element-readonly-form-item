@@ -119,7 +119,7 @@ export default {
       return this.$attrs.prop?.split('.')?.reduce((pre, cur) => pre[cur], this.elFormModel)
     },
     getContentValue() {
-      if (this.$options.propsData.hasOwnProperty.call('value')) {
+      if ('value' in this.$options.propsData) {
         return this.value
       }
 
