@@ -42,10 +42,6 @@ export default {
     }
   },
   computed: {
-    otherSlots() {
-      const { default: _, ...rest } = this.$slots
-      return rest
-    },
     isReadonly() {
       return 'readonly' in this.$options.propsData ? this.readonly : this.elForm.$attrs.readonly
     },
@@ -81,6 +77,10 @@ export default {
     }
   },
   methods: {
+    otherSlots() {
+      const { default: _, ...rest } = this.$slots
+      return rest
+    },
     componentVNode() {
       return getFormComponentVNode(this.$slots.default)
     },
@@ -119,7 +119,7 @@ export default {
       return this.$attrs.prop?.split('.')?.reduce((pre, cur) => pre[cur], this.elFormModel)
     },
     getContentValue() {
-      if (this.value) {
+      if (this.$options.propsData.hasOwnProperty.call('value')) {
         return this.value
       }
 
@@ -133,7 +133,7 @@ export default {
 
           return Array.isArray(value)
             ? options
-                ?.filter((item) => value.includes(item.value))
+                ?.filter((item) => value?.includes(item.value))
                 ?.map((item) => item.label)
                 ?.join(this.getSeparator())
             : options?.find((item) => item.value === value)?.label
@@ -142,7 +142,7 @@ export default {
           return this.getOptions(vNode)?.find((item) => item.value === value)?.label
         case 'ElCheckboxGroup': {
           return this.getOptions(vNode)
-            ?.filter((item) => value.includes(item.value))
+            ?.filter((item) => value?.includes(item.value))
             ?.map((item) => item.label)
             ?.join(this.getSeparator())
         }
