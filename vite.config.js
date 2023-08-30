@@ -14,6 +14,7 @@ export default defineConfig({
   build: {
     outDir: resolve(__dirname, 'dist'),
     emptyOutDir: true,
+    target: 'es2015',
     lib: {
       entry: resolve(__dirname, 'src/index.js'),
       formats: ['es', 'umd'],
